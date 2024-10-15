@@ -1,5 +1,6 @@
 "use client"
 
+import { addText } from "@/app/actions/add-text";
 import { Button } from "@/components/ui/button";
 import {
     Form,
@@ -41,7 +42,19 @@ const InputField = () => {
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
+        try {
+            const response = await addText({text: data.username});
+            if (response?.success) {
+                console.log(response.success);
+            } else {
+                console.log(response.error);
+            }
+        } catch (error) {
+            console.log(error);
+        }
     };
+
+
 
     return (
         <div>
