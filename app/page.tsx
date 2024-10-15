@@ -5,22 +5,18 @@ import Input from "./(main)/_components/input";
 import InputField from "./(main)/_components/input";
 
 export default function Home() {
+    const handleOnClick = () => {
+        alert("clicked");
+    };
 
-  const handleOnClick = () => {
-    alert("clicked");
-  }
-
-  return (
-      <div className="flex flex-col items-center justify-center h-screen">
-          Text Generator
-          <div className="flex flex-col">
-              <div>
-                  <InputField/>
-              </div>
-              <div>
-                  <Button onClick={handleOnClick}> Add </Button>
-              </div>
-          </div>
-      </div>
-  );
+    return (
+        <div className="max-w-2xl mx-auto p-4 space-y-4">
+            <h1 className="text-2xl font-bold text-center">AI text Generator</h1>
+            <div className="flex flex-col">
+                <div>
+                    <InputField />
+                </div>
+            </div>
+        </div>
+    );
 }

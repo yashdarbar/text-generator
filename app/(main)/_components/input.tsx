@@ -68,7 +68,7 @@ const InputField = () => {
                         name="username"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Username</FormLabel>
+                                <FormLabel>Enter your text</FormLabel>
                                 <FormControl>
                                     <Input {...field} />
                                 </FormControl>
