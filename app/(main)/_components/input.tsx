@@ -43,7 +43,7 @@ const InputField = () => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
         try {
-            const response = await addText({text: data.username});
+            const response = await addText({text: data.username, preference: ""});
             if (response?.success) {
                 console.log(response.success);
             } else {
