@@ -2,6 +2,7 @@
 
 import { addText } from "@/app/actions/add-text";
 import { Button } from "@/components/ui/button";
+import { Combobox } from "@/components/ui/combobox";
 import {
     Form,
     FormControl,
@@ -54,8 +55,6 @@ const InputField = () => {
         }
     };
 
-
-
     return (
         <div>
             <Form {...form}>
@@ -82,6 +81,7 @@ const InputField = () => {
                     <Button type="submit">Submit</Button>
                 </form>
             </Form>
+            <Combobox/>
         </div>
     );
 };
