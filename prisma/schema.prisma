@@ -18,12 +18,18 @@ datasource db {
 model Input {
   id         Int      @id @default(autoincrement())
   text       String
-  preference String
+  preferenceId String?
+  preference Preference? @relation(fields: [preferenceId], references: [id])
   output     String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 }
 
+model Preference {
+  id String @id @default(uuid())
+  name String @db.Text
+  input Input[]
+}
 // model Input {
 //   id String @id @default(uuid())
 //   text String @db.Text
