@@ -26,6 +26,21 @@ export async function addText(values: { text: string; preference: string }) {
     }
 }
 
+export async function getPreference() {
+    try {
+        const preference = await db.preference.findMany({
+            orderBy: {
+                name: "asc",
+            }
+        });
+        return { success: preference };
+
+    } catch (error) {
+        console.log("[GET_PREFERENCE]", error);
+        return { error: "GET_PREFERENCE_ERROR" };
+    }
+}
+
 // ("use server");
 
 // import { db } from "@/lib/db";

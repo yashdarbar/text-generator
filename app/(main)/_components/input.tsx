@@ -1,6 +1,6 @@
 "use client"
 
-import { addText } from "@/app/actions/add-text";
+import { addText, getPreference } from "@/app/actions/add-text";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
@@ -17,6 +17,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import PreferenceForm from "./preference-form";
 
 // type InputProps = {
 //     onChange: (...event: any[]) => void;
@@ -55,6 +56,12 @@ const InputField = () => {
         }
     };
 
+    // const preferences = await getPreference();
+    // if (!preferences || preferences.error) {
+    //     return <div>Error</div>;
+    // }
+
+
     return (
         <div>
             <Form {...form}>
@@ -81,7 +88,8 @@ const InputField = () => {
                     <Button type="submit">Submit</Button>
                 </form>
             </Form>
-            <Combobox/>
+            <PreferenceForm />
+            
         </div>
     );
 };

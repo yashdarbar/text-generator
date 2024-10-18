@@ -42,9 +42,16 @@ const frameworks = [
     },
 ];
 
-export function Combobox() {
+interface ComboboxProps {
+    options?: { label: string; value: string }[];
+    value?: string;
+    onChange: (value: string | null | undefined) => void;
+
+}
+
+export function Combobox({options, value, onChange}: ComboboxProps) {
     const [open, setOpen] = React.useState(false);
-    const [value, setValue] = React.useState("");
+    //const [value, setValue] = React.useState("");
 
     return (
         <Popover open={open} onOpenChange={setOpen}>
@@ -56,28 +63,27 @@ export function Combobox() {
                     className="w-[200px] justify-between"
                 >
                     {value
-                        ? frameworks.find(
-                            (framework) => framework.value === value
-                        )?.label
-                        : "Select framework..."}
+                        ? options?.find((option) => option.value === value)
+                            ?.label
+                        : "Select preference..."}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
             <PopoverContent className="w-[200px] p-0">
                 <Command>
-                    <CommandInput placeholder="Search framework..." />
+                    <CommandInput placeholder="Search preference..." />
                     <CommandList>
-                        <CommandEmpty>No framework found.</CommandEmpty>
+                        <CommandEmpty>No preference found.</CommandEmpty>
                         <CommandGroup>
-                            {frameworks.map((framework) => (
+                            {options?.map((option) => (
                                 <CommandItem
-                                    key={framework.value}
-                                    value={framework.value}
-                                    onSelect={(currentValue) => {
-                                        setValue(
-                                            currentValue === value
+                                    key={option.value}
+                                    value={option.value}
+                                    onSelect={() => {
+                                        onChange(
+                                            option.value === value
                                                 ? ""
-                                                : currentValue
+                                                : option.value
                                         );
                                         setOpen(false);
                                     }}
@@ -85,12 +91,12 @@ export function Combobox() {
                                     <Check
                                         className={cn(
                                             "mr-2 h-4 w-4",
-                                            value === framework.value
+                                            value === option.value
                                                 ? "opacity-100"
                                                 : "opacity-0"
                                         )}
                                     />
-                                    {framework.label}
+                                    {option.label}
                                 </CommandItem>
                             ))}
                         </CommandGroup>
