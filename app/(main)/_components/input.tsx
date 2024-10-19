@@ -15,7 +15,7 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { set, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import * as z from "zod";
 import PreferenceForm from "./preference-form";
 import { useEffect, useState } from "react";
@@ -27,6 +27,16 @@ import { useEffect, useState } from "react";
 //     // name: string;
 //     // ref: React.RefCallback<HTMLInputElement>;
 // };
+type Preference = {
+    name: string;
+    id: string;
+}
+
+type PreferenceResponse = {
+    success?: Preference[];
+    error?: string;
+}
+
 
 const formSchema = z.object({
     username: z.string().min(2, {
@@ -36,7 +46,7 @@ const formSchema = z.object({
 
 const InputField = () => {
 
-    const [preferences, setPreferences] = useState<any[]>([]);
+    const [preferences, setPreferences] = useState<PreferenceResponse | null>(null);
 
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
@@ -50,7 +60,7 @@ const InputField = () => {
             try {
                 const response = await getPreference();
                 console.log("hh", response);
-                //setPreferences(response?.success);
+                setPreferences(response);
             } catch (error) {
                 console.log(error);
             }
@@ -91,21 +101,26 @@ const InputField = () => {
                         name="username"
                         render={({ field }) => (
                             <FormItem>
-                                <FormLabel>Enter your text</FormLabel>
+                                <FormLabel>Enter your prompt</FormLabel>
                                 <FormControl>
-                                    <Input {...field} />
+                                    <Input placeholder="Enter your prompt here..."  {...field} />
                                 </FormControl>
-                                <FormDescription>
+                                {/* <FormDescription>
                                     This is your public display name.
-                                </FormDescription>
+                                </FormDescription> */}
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <Button type="submit">Generate Text</Button>
                 </form>
             </Form>
-            {/* <PreferenceForm onChange={""} value={""} options={[]} /> */}
+            <PreferenceForm options={
+                preferences?.success?.map((preference)=>({
+                    label: preference.name,
+                    value: preference.id,
+                }))
+            } />
 
         </div>
     );

@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
+    Form,
     FormControl,
     FormDescription,
     FormField,
@@ -12,8 +13,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Form, useForm } from "react-hook-form";
+import {  useForm } from "react-hook-form";
 import * as z from "zod";
+
+interface PreferenceProps {
+    options?: { label: string; value: string }[];
+}
 
 const formSchema = z.object({
     preference: z.string().min(2, {
@@ -21,13 +26,15 @@ const formSchema = z.object({
     }),
 });
 
-const PreferenceForm = ({onChange, value, options}: any) => {
+const PreferenceForm = ({ options }: PreferenceProps) => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             preference: "",
         },
     });
+
+    console.log(options);
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
@@ -50,8 +57,10 @@ const PreferenceForm = ({onChange, value, options}: any) => {
                         control={form.control}
                         name="preference"
                         render={({ field }) => (
-                            <FormItem>
-                                <FormLabel>Enter your text</FormLabel>
+                            <FormItem className="flex flex-col mt-8">
+                                <FormLabel className="">
+                                    Select tone/style preference
+                                </FormLabel>
                                 <FormControl>
                                     <Combobox
                                         options={options}
@@ -59,21 +68,15 @@ const PreferenceForm = ({onChange, value, options}: any) => {
                                         onChange={field.onChange}
                                     />
                                 </FormControl>
-                                <FormDescription>
-                                    This is your public display name.
-                                </FormDescription>
                                 <FormMessage />
                             </FormItem>
                         )}
                     />
-                    <Button type="submit">Submit</Button>
+                    <div >
+                        <Button type="submit">Submit</Button>
+                    </div>
                 </form>
             </Form>
-            PreferenceForm
-            {/* <Combobox options={preferences?.success?.map((preference)=>({
-                label: preference.name,
-                value: preference.id,
-            }) || [])}/> */}
         </div>
     );
 };
