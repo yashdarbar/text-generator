@@ -15,9 +15,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { useForm } from "react-hook-form";
+import { set, useForm } from "react-hook-form";
 import * as z from "zod";
 import PreferenceForm from "./preference-form";
+import { useEffect, useState } from "react";
 
 // type InputProps = {
 //     onChange: (...event: any[]) => void;
@@ -35,12 +36,28 @@ const formSchema = z.object({
 
 const InputField = () => {
 
+    const [preferences, setPreferences] = useState<any[]>([]);
+
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
             username: "",
         }
     })
+
+    useEffect(()=> {
+        const fetchPreference = async () => {
+            try {
+                const response = await getPreference();
+                console.log("hh", response);
+                //setPreferences(response?.success);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
+        fetchPreference();
+    }, [] )
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
@@ -56,7 +73,7 @@ const InputField = () => {
         }
     };
 
-    // const preferences = await getPreference();
+    // const preferences = getPreference();
     // if (!preferences || preferences.error) {
     //     return <div>Error</div>;
     // }
@@ -88,8 +105,8 @@ const InputField = () => {
                     <Button type="submit">Submit</Button>
                 </form>
             </Form>
-            <PreferenceForm />
-            
+            {/* <PreferenceForm onChange={""} value={""} options={[]} /> */}
+
         </div>
     );
 };
