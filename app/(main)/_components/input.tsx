@@ -69,19 +69,19 @@ const InputField = () => {
         fetchPreference();
     }, [] )
 
-    const onSubmit = async (data: z.infer<typeof formSchema>) => {
-        console.log(data);
-        try {
-            const response = await addText({text: data.username, preference: ""});
-            if (response?.success) {
-                console.log(response.success);
-            } else {
-                console.log(response.error);
-            }
-        } catch (error) {
-            console.log(error);
-        }
-    };
+    // const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    //     console.log(data);
+    //     try {
+    //         const response = await addText({text: data.username, preference: ""});
+    //         if (response?.success) {
+    //             console.log(response.success);
+    //         } else {
+    //             console.log(response.error);
+    //         }
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     // const preferences = getPreference();
     // if (!preferences || preferences.error) {
@@ -91,7 +91,7 @@ const InputField = () => {
 
     return (
         <div>
-            <Form {...form}>
+            {/* <Form {...form}>
                 <form
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
@@ -108,13 +108,13 @@ const InputField = () => {
                                 {/* <FormDescription>
                                     This is your public display name.
                                 </FormDescription> */}
-                                <FormMessage />
+                                {/* <FormMessage />
                             </FormItem>
                         )}
                     />
                     <Button type="submit">Generate Text</Button>
                 </form>
-            </Form>
+            </Form> */}
             <PreferenceForm options={
                 preferences?.success?.map((preference)=>({
                     label: preference.name,

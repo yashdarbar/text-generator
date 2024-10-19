@@ -6,14 +6,20 @@ import { Prisma } from "@prisma/client";
 
 type Input = InputData;
 
-export async function addText(values: { text: string; preference: string }) {
+export async function addText(values: { text: string; preferenceId: string | undefined }) {
     try {
         if (!values.text) {
             return { error: "TEXT_REQUIRED" };
         }
 
+        // if (!values.preference) {
+        //     return { error: "TEXT_REQUIRED" };
+        // }
+        console.log(values.preferenceId);
+
         const data: Prisma.InputCreateInput = {
             text: values.text,
+            preference: values.preferenceId ? { connect: { id: values.preferenceId } } : undefined,
             output: "",
         };
 

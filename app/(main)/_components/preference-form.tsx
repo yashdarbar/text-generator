@@ -1,5 +1,6 @@
 "use client";
 
+import { addText } from "@/app/actions/add-text";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
@@ -24,6 +25,9 @@ const formSchema = z.object({
     preference: z.string().min(2, {
         message: "Preference must be at least 2 characters long",
     }),
+    text: z.string().min(2, {
+        message: "Username must be at least 2 characters long",
+    }),
 });
 
 const PreferenceForm = ({ options }: PreferenceProps) => {
@@ -31,16 +35,35 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
         resolver: zodResolver(formSchema),
         defaultValues: {
             preference: "",
+            text: "",
         },
     });
 
+
     console.log(options);
+
+    // const onSubmit = async (data: z.infer<typeof formSchema>) => {
+    //     console.log(data);
+    //     try {
+    //         //
+    //         console.log(data.preference);
+    //     } catch (error) {
+    //         console.log(error);
+    //     }
+    // };
 
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
         try {
-            //
-            console.log(data.preference);
+            const response = await addText({
+                text: data.text,
+                preferenceId: data.preference,
+            });
+            if (response?.success) {
+                console.log(response.success);
+            } else {
+                console.log(response.error);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -53,6 +76,25 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
                     onSubmit={form.handleSubmit(onSubmit)}
                     className="space-y-8"
                 >
+                    <FormField
+                        control={form.control}
+                        name="text"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Enter your prompt</FormLabel>
+                                <FormControl>
+                                    <Input
+                                        placeholder="Enter your prompt here..."
+                                        {...field}
+                                    />
+                                </FormControl>
+                                {/* <FormDescription>
+                                    This is your public display name.
+                                </FormDescription> */}
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
                     <FormField
                         control={form.control}
                         name="preference"
@@ -72,7 +114,7 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
                             </FormItem>
                         )}
                     />
-                    <div >
+                    <div>
                         <Button type="submit">Submit</Button>
                     </div>
                 </form>
