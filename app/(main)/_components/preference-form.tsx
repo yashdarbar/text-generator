@@ -115,7 +115,7 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
                         )}
                     />
                     <div>
-                        <Button type="submit">Submit</Button>
+                        <Button type="submit">Generate Text</Button>
                     </div>
                 </form>
             </Form>
