@@ -3,6 +3,8 @@
 import { db } from "@/lib/db";
 import { InputData } from "../type/input";
 import { Prisma } from "@prisma/client";
+import Groq from "groq-sdk";
+import { main } from "./groq";
 
 type Input = InputData;
 
@@ -46,6 +48,17 @@ export async function getPreference() {
         return { error: "GET_PREFERENCE_ERROR" };
     }
 }
+
+export async function callingGroq() {
+    try {
+        // await main();
+        const output = await main();
+        console.log("Output:", output);
+    } catch (error) {
+        console.log("[callingGroq]", error);
+    }
+}
+
 
 // ("use server");
 

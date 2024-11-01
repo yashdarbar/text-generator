@@ -1,6 +1,7 @@
 "use client";
 
-import { addText } from "@/app/actions/add-text";
+import { addText, callingGroq } from "@/app/actions/add-text";
+import { findSuitableFolder } from "@/app/actions/groq";
 import { Button } from "@/components/ui/button";
 import { Combobox } from "@/components/ui/combobox";
 import {
@@ -55,6 +56,7 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
     const onSubmit = async (data: z.infer<typeof formSchema>) => {
         console.log(data);
         try {
+            const getPrompt = await findSuitableFolder();
             const response = await addText({
                 text: data.text,
                 preferenceId: data.preference,
@@ -64,10 +66,25 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
             } else {
                 console.log(response.error);
             }
+
+            console.log(getPrompt);
         } catch (error) {
             console.log(error);
         }
     };
+
+
+    const getGroqPrompt = async () => {
+        // const getPrompt = await findSuitableFolder();
+        try {
+            const getSomething = await callingGroq();
+            console.log("Groq Output:", getSomething);
+        } catch (error) {
+            console.log("groq error:", error);
+        }
+
+    }
+
 
     return (
         <div>
@@ -95,7 +112,7 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
                             </FormItem>
                         )}
                     />
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="preference"
                         render={({ field }) => (
@@ -113,12 +130,16 @@ const PreferenceForm = ({ options }: PreferenceProps) => {
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />
-                    <div>
+                    /> */}
+                    {/* <div>
                         <Button type="submit">Generate Text</Button>
-                    </div>
+                    </div> */}
                 </form>
             </Form>
+
+        <div>
+            <Button onClick={getGroqPrompt}>Generate Text</Button>
+        </div>
         </div>
     );
 };
